@@ -98,6 +98,55 @@ fun TelaHidratacao(
                     ){
                         Text("Meta Diária", fontWeight=FontWeight.Bold,color=Color.Gray)
                         Text("${String.format("%.1f",metaDiaria)}L",fontSize=48.sp,fontWeight=FontWeight.Black,color=corAzulAgua)
+                        
+                        Spacer(modifier=Modifier.height(20.dp))
+
+                        // Garrafa de Água Visual
+                        Box(
+                            modifier=Modifier
+                            .width(80.dp)
+                            .height(160.dp)
+                            .background(Color(0xFFF1F4F8),RoundedCornerShape(40.dp)),
+                            contentAlignment=Alignment.BottomCenter
+                        ){
+                            Box(
+                                modifier=Modifier
+                                .fillMaxWidth
+                                .fillMaxHeight((aguaConsumida/metaDiaria).coerceln(0f,1f))
+                                .background(corAzulAgua,RoundedCornerShape(40.dp))
+                            )
+                        }
+                        Spacer(modifier=Modifier.height(12.dp))
+                        Text("${(aguaConsumida*1000).tolnt()}ml consumidos",fontSize=14.sp,color=Color.Gray)
+                    }
+                }
+                Spacer(modifier=Modifier.height(24.dp))
+
+                // Seção de Adicionar
+                Text(
+                    "Adicionar à meta",
+                    fontWeight=FontWeight.Bold,
+                    modifier=Modifier.align(Alignment.Start).padding(bottom=12.dp)
+                )
+                Row(modifier=Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(12.dp)){
+                    ItemAgua("Copo","250ml","💧",Modifier.weight(1f)){aguaConsumida+=0.25f}
+                    ItemAgua("Suco","300ml","🥤",Modifier.weight(1f)){aguaConsumida+=0.30f}
+                    ItemAgua("Chá","200ml","🍵",Modifier.weight(1f)){aguaConsumida+=0.20f}
+                }
+                Spacer(modifier=Modifier.height(30.dp))
+
+                // Calculadora
+
+                if(!mostrarCalculadora){
+                    Button(
+                        onClick={mostrarCalculadora=true},
+                        modifier=Modifier.fillMaxWidth().height(56.dp),
+                        colors=ButtonDefaults.buttonColors(containerColor=Color(0xFF5733FF)),
+                        shape=RoundedCornerShape(12.dp)
+                    ){
+                        Icon(Icon.Default.Calculate,null)
+                        Spacer(modifier=Modifier.width(8.dp))
+                        Text("Calcular Meta por peso",fontWeight=FontWeight.Bold)
                     }
                 }
             }
