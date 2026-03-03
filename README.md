@@ -148,8 +148,68 @@ fun TelaHidratacao(
                         Spacer(modifier=Modifier.width(8.dp))
                         Text("Calcular Meta por peso",fontWeight=FontWeight.Bold)
                     }
+                } else{
+                    Card(
+                        modifier=Modifier.fillMaxWidth(),
+                        shape=RoundedCornerShape(16.dp),
+                        colors=CardDefaults.cardColors(containerColor=Color.White.copy(alpha=0.9f))
+                    ){
+                        Column(modifier=Modifier.padding(20.dp)){
+                            Text("Calculadora Científica",fontWeight=FontWeight.Bold,color=Color(0xFF5733FF))
+                            Spacer(modifier=Modifier.height(12.dp))
+
+                            OutlinedTextField(
+                                value=peso,
+                                onVolueChange={peso=it},
+                                label={Text("Seu peso atual(kg)")},
+                                modifier=Modifier.fillMaxWidth(),
+                                shape=RoundedCornerShape(12.dp)
+                            )
+
+                            Spacer(modifier=Modifier.height(16.dp))
+
+                            Button(
+                                onClick={
+                                    val p=peso.toFloatOrNull()?:0f
+                                    metaDiaria=(p*35)/1000
+                                    mostrarCalculadora=false
+                                },
+                                modifier=Modifier.fillMaxWidth(),
+                                colors=ButtonDefaults.buttonColors(containerColor=corAzulAgua)
+                            ){
+                                Text("Salvar Nova Meta")
+                            }
+                        }
+                    }
                 }
             }
         }
     }
+}
+
+// Componente Item Água 
+
+@Composable
+fun ItemAgua(nome:String,qtd:String,emoji:String,modifier:Modifier,onClick:()->Unit){
+    Card(
+        modifier=modifier.clickable{onClick()},
+        shape=RoundedCornerShape(16.dp),
+        colors=CardDefaults.cardColors(containerColor=Color.White),
+        elevation=CardDefaults.cardElevation(2.dp)
+    ){
+        Column(
+            modifier=Modifier.padding(16.dp).fillMaxWidth(),
+            horizontalAlignment=Alignment.CenterHorizontally
+        ){
+            Text(emoji.fontSize=28.sp)
+            Spacer(modifier=Modifier.height(4.dp))
+            Text(nome,fontWeight=FontWeight.Bold,fontSize=14.sp)
+            Text(qtd,color=Color.Gray,fontSize=12.sp)
+        }
+    }
+}
+@Preview(showSystemUi=true)
+@Composable
+fun PreviewHidratacao(){
+    TelaHidratacao(onVoltar={})
 }
